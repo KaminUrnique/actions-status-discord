@@ -48,6 +48,9 @@ inputs:
     description: "Suppress detailed embed fields"
     required: false
     default: 'false'
+  platform:
+    description: "Build platform"
+    required: false
   downloadTitle:
     description: "Title for download button"
     required: false
