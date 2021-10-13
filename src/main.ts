@@ -41,7 +41,7 @@ function wrapWebhook(webhook: string, payload: Object): Promise<void> {
 export function getPayload(inputs: Readonly<Inputs>): Object {
     const ctx = github.context
     const { owner, repo } = ctx.repo
-    const { eventName, sha, ref, workflow, actor, payload } = ctx
+    const { sha, platform, workflow, actor, payload, downloadTitle, downloadURL } = ctx
     const repoURL = `https://github.com/${owner}/${repo}`
     // if the trigger is pull_request, check `github.event.pull_request.head.sha` first.
     // see issues/132
@@ -49,9 +49,6 @@ export function getPayload(inputs: Readonly<Inputs>): Object {
     const workflowURL = `${repoURL}/commit/${validSHA}/checks`
 
     logDebug(JSON.stringify(payload))
-
-    const eventFieldTitle = `Event - ${eventName}`
-    const eventDetail = formatEvent(eventName, payload)
 
     let embed: {[key: string]: any} = {
         color: inputs.color || statusOpts[inputs.status].color,
@@ -81,18 +78,18 @@ export function getPayload(inputs: Readonly<Inputs>): Object {
         embed.fields = [
             {
                 name: 'Repository',
-                value: `[${owner}/${repo}](${repoURL})`,
+                value: `[${repo}](${repoURL})`,
                 inline: true
             },
             {
-                name: 'Ref',
-                value: ref,
+                name: 'Workflow',
+                value: `[${workflow}](${workflowURL})`,
                 inline: true
             },
             {
-                name: eventFieldTitle,
-                value: eventDetail,
-                inline: false
+                name: 'Platform',
+                value: platform,
+                inline: true
             },
             {
                 name: 'Triggered by',
@@ -100,8 +97,8 @@ export function getPayload(inputs: Readonly<Inputs>): Object {
                 inline: true
             },
             {
-                name: 'Workflow',
-                value: `[${workflow}](${workflowURL})`,
+                name: 'Download',
+                value: `[${downloadTitle}](${downloadURL})`,
                 inline: true
             }
         ]
