@@ -48,6 +48,14 @@ inputs:
     description: "Suppress detailed embed fields"
     required: false
     default: 'false'
+  downloadTitle:
+    description: "Title for download button"
+    required: false
+    default: 'Download'
+  downloadURL:
+    description: "Download URL"
+    required: false
+    default: ''
 
 runs:
   using: 'node12'
