@@ -10,8 +10,8 @@ export interface Inputs {
     color: number
     username: string
     avatar_url: string
-    nocontext: boolean
-    noprefix: boolean
+    downloadTitle: string
+    downloadURL: string
 }
 
 interface StatusOption {
@@ -47,11 +47,6 @@ export function getInputs(): Inputs {
         }
     })
 
-    // nodetail -> nocontext, noprefix
-    const nodetail = stob(core.getInput('nodetail'))
-    const nocontext = nodetail || stob(core.getInput('nocontext'))
-    const noprefix = nodetail || stob(core.getInput('noprefix'))
-
     const inputs: Inputs =  {
         webhooks: webhooks,
         status: core.getInput('status').trim().toLowerCase(),
@@ -61,8 +56,8 @@ export function getInputs(): Inputs {
         color: parseInt(core.getInput('color')),
         username: core.getInput('username').trim(),
         avatar_url: core.getInput('avatar_url').trim(),
-        nocontext: nocontext,
-        noprefix: noprefix
+        downloadTitle: core.getInput('downloadTitle').trim(),
+        downloadURL: core.getInput('downloadURL').trim()
     }
 
     // validate
