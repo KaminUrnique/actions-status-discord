@@ -58,6 +58,7 @@ export function getPayload(inputs: Readonly<Inputs>): Object {
     // title
     if (inputs.title) {
         embed.title = inputs.title
+        embed.title = statusOpts[inputs.status].status + (embed.title ? `: ${embed.title}` : '')
     }
 
     if (inputs.image) {
@@ -66,43 +67,37 @@ export function getPayload(inputs: Readonly<Inputs>): Object {
         }
     }
 
-    if (!inputs.noprefix) {
-        embed.title = statusOpts[inputs.status].status + (embed.title ? `: ${embed.title}` : '')
-    }
-
     if (inputs.description) {
         embed.description = inputs.description
     }
-
-    if (!inputs.nocontext) {
-        embed.fields = [
-            {
-                name: 'Repository',
-                value: `[${repo}](${repoURL})`,
-                inline: true
-            },
-            {
-                name: 'Workflow',
-                value: `[${workflow}](${workflowURL})`,
-                inline: true
-            },
-            {
-                name: 'Platform',
-                value: platform,
-                inline: true
-            },
-            {
-                name: 'Triggered by',
-                value: actor,
-                inline: true
-            },
-            {
-                name: 'Download',
-                value: `[${downloadTitle}](${downloadURL})`,
-                inline: true
-            }
-        ]
-    }
+    
+    embed.fields = [
+        {
+            name: 'Repository',
+            value: `[${repo}](${repoURL})`,
+            inline: true
+        },
+        {
+            name: 'Workflow',
+            value: `[${workflow}](${workflowURL})`,
+            inline: true
+        },
+        {
+            name: 'Platform',
+            value: platform,
+            inline: true
+        },
+        {
+            name: 'Triggered by',
+            value: actor,
+            inline: true
+        },
+        {
+            name: 'Download',
+            value: `[${downloadTitle}](${downloadURL})`,
+            inline: true
+        }
+    ]
 
     let discord_payload: any = {
         embeds: [fitEmbed(embed)]
