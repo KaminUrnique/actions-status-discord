@@ -51,6 +51,7 @@ inputs:
   platform:
     description: "Build platform"
     required: false
+    default: 'none'
   downloadTitle:
     description: "Title for download button"
     required: false
